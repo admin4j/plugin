@@ -83,10 +83,10 @@ public class ClassPathPluginLoadingStrategy implements LoadingStrategy {
         return extensionClasses;
     }
 
-    private <T> void loadResource(Map<String, Class<T>> extensionClasses,
-                                  ClassLoader classLoader,
-                                  java.net.URL resourceURL,
-                                  Class<T> type) {
+    protected <T> void loadResource(Map<String, Class<T>> extensionClasses,
+                                    ClassLoader classLoader,
+                                    java.net.URL resourceURL,
+                                    Class<T> type) {
 
         try {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(resourceURL.openStream(), StandardCharsets.UTF_8))) {
@@ -128,6 +128,7 @@ public class ClassPathPluginLoadingStrategy implements LoadingStrategy {
                                     "Failed to load extension class (interface: " + type + ", class line: " + line + ") in " + resourceURL +
                                             ", cause: " + t.getMessage(), t);
                             //exceptions.put(line, e);
+                            throw e;
                         }
                     }
                 }
@@ -150,4 +151,24 @@ public class ClassPathPluginLoadingStrategy implements LoadingStrategy {
         return false;
     }
 
+
+    /**
+     * 类加载器
+     *
+     * @return
+     */
+    protected ClassLoader findClassLoader() {
+
+        ClassLoader cl = null;
+        cl = Thread.currentThread().getContextClassLoader();
+        if (cl == null) {
+            cl = LoadingStrategy.class.getClassLoader();
+        }
+
+        if (cl == null) {
+            cl = ClassLoader.getSystemClassLoader();
+        }
+
+        return cl;
+    }
 }

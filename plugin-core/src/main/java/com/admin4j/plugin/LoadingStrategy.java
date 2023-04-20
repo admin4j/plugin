@@ -9,7 +9,7 @@ import java.util.Map;
  * @author andanyang
  * @since 2023/4/20 10:00
  */
-public interface LoadingStrategy extends Comparable {
+public interface LoadingStrategy extends Comparable<LoadingStrategy> {
 
     /**
      * The maximum priority
@@ -58,34 +58,11 @@ public interface LoadingStrategy extends Comparable {
     default int order() {
         return NORMAL_PRIORITY;
     }
-
-
+    
     @Override
-    default int compareTo(Object o) {
+    default int compareTo(LoadingStrategy o) {
 
-        if (o instanceof LoadingStrategy) {
-            return ((LoadingStrategy) o).order() > order() ? 1 : 0;
-        }
-        return 1;
+        return o.order() > order() ? 1 : 0;
     }
 
-    /**
-     * 类加载器
-     *
-     * @return
-     */
-    default ClassLoader findClassLoader() {
-
-        ClassLoader cl = null;
-        cl = Thread.currentThread().getContextClassLoader();
-        if (cl == null) {
-            cl = LoadingStrategy.class.getClassLoader();
-        }
-
-        if (cl == null) {
-            cl = ClassLoader.getSystemClassLoader();
-        }
-
-        return cl;
-    }
 }

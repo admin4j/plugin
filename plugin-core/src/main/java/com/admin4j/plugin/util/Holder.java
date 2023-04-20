@@ -1,8 +1,8 @@
 package com.admin4j.plugin.util;
 
 /**
- *
  * Helper Class for hold a value.
+ *
  * @author andanyang
  * @since 2023/4/20 10:21
  */

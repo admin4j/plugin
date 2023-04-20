@@ -1,5 +1,6 @@
 package com.admin4j.plugin;
 
+import com.admin4j.plugin.anno.SPI;
 import com.admin4j.plugin.context.Lifecycle;
 import com.admin4j.plugin.util.Holder;
 import org.apache.commons.lang3.ArrayUtils;
@@ -12,9 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.regex.Pattern;
+import java.util.stream.StreamSupport;
 
-import static java.util.ServiceLoader.load;
-import static java.util.stream.StreamSupport.stream;
 
 /**
  * @author andanyang
@@ -58,8 +58,6 @@ public class ExtensionLoader<T> {
     private ExtensionLoader(Class<?> type) {
 
         this.type = type;
-        // 这里需要对对象的工厂做额外的创建，
-        //objectFactory = (type == ExtensionFactory.class ? null : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
     }
 
     //public static void setLoadingStrategies(LoadingStrategy... strategies) {
@@ -69,7 +67,7 @@ public class ExtensionLoader<T> {
     //}
 
     private static LoadingStrategy[] loadLoadingStrategies() {
-        return stream(load(LoadingStrategy.class).spliterator(), false)
+        return StreamSupport.stream(ServiceLoader.load(LoadingStrategy.class).spliterator(), false)
                 .sorted()
                 .toArray(LoadingStrategy[]::new);
     }

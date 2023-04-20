@@ -23,8 +23,7 @@ public class LocalPluginLoadingStrategy implements LoadingStrategy {
 
     private static final Logger logger = LoggerFactory.getLogger(LocalPluginLoadingStrategy.class);
 
-    //private static final String PLUGIN_PATH = "./plugin";
-    private static final String PLUGIN_PATH = "D:\\workspace\\github\\plugin-example\\plugin-example-impl\\target";
+    private static final String PLUGIN_PATH = "./plugin";
 
     @Override
     public String directory() {

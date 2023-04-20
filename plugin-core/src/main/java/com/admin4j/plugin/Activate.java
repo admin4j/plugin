@@ -8,5 +8,6 @@ public @interface Activate {
     String[] group() default {};
 
     String[] value() default {};
+
     int order() default 0;
 }

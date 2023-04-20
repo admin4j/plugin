@@ -1,6 +1,6 @@
 package com.admin4j.order;
-
-import com.admin4j.plugin.SPI;
+ 
+import com.admin4j.plugin.anno.SPI;
 
 /**
  * @author andanyang

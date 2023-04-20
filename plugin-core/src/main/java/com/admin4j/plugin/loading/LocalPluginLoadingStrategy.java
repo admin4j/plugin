@@ -13,7 +13,6 @@ public class LocalPluginLoadingStrategy extends ClassPathPluginLoadingStrategy {
      */
     private static final String PLUGIN_PATH = System.getProperty("PLUGIN_PATH", "./plugin");
 
-
     @Override
     public int order() {
         return super.order() - 100;

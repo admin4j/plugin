@@ -21,8 +21,7 @@ public class ClassPathPluginLoadingStrategy implements LoadingStrategy {
 
 
     private static final Logger logger = LoggerFactory.getLogger(ClassPathPluginLoadingStrategy.class);
-
-    @Override
+    
     public String directory() {
         return "META-INF/plugin/";
     }

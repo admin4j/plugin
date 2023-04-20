@@ -26,8 +26,6 @@ public interface LoadingStrategy extends Comparable<LoadingStrategy> {
 
     <T> Map<String, Class<T>> loadClass(Class<T> tClass);
 
-    String directory();
-
     /**
      * 使用当前 ClassLoad
      *
@@ -58,7 +56,7 @@ public interface LoadingStrategy extends Comparable<LoadingStrategy> {
     default int order() {
         return NORMAL_PRIORITY;
     }
-    
+
     @Override
     default int compareTo(LoadingStrategy o) {
 

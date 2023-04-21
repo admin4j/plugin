@@ -2,6 +2,8 @@ package com.admin4j.plugin.loading;
 
 import com.admin4j.plugin.PluginClassLoaderManager;
 
+import java.io.IOException;
+
 /**
  * @author andanyang
  * @since 2023/4/20 11:19
@@ -22,6 +24,10 @@ public class LocalPluginLoadingStrategy extends ClassPathPluginLoadingStrategy {
     @Override
     public ClassLoader findClassLoader() {
 
-        return PluginClassLoaderManager.SHARE_INSTANCE.addPluginClassLoader("LOCAL", PLUGIN_PATH);
+        try {
+            return PluginClassLoaderManager.SHARE_INSTANCE.addPluginClassLoader("LOCAL", PLUGIN_PATH);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

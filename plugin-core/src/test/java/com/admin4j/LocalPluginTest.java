@@ -1,8 +1,12 @@
 package com.admin4j;
 
 import com.admin4j.plugin.ExtensionLoader;
+import com.admin4j.plugin.PluginClassLoader;
+import com.admin4j.plugin.PluginClassLoaderManager;
 import com.admin4j.plugin.api.UserService;
 import org.junit.Test;
+
+import java.io.IOException;
 
 /**
  * @author andanyang
@@ -13,8 +17,9 @@ public class LocalPluginTest {
     int i = 0;
 
     @Test
-    public void testPlugin() {
+    public void testPlugin() throws IOException {
 
+        System.setProperty("PLUGIN_PATH", "C:\\Users\\andanyang\\Desktop\\plugin-java\\plugin");
         UserService userService;
 
         userService = ExtensionLoader.getExtensionLoader(UserService.class).getExtension("def");
@@ -26,7 +31,9 @@ public class LocalPluginTest {
         userService = ExtensionLoader.getExtensionLoader(UserService.class).getExtension("def3");
         testBean(userService);
 
-
+        PluginClassLoader local = PluginClassLoaderManager.SHARE_INSTANCE.getPluginClassLoader("LOCAL");
+        local.close();
+        
         userService = ExtensionLoader.getExtensionLoader(UserService.class).getDefaultExtension();
         testBean(userService);
     }

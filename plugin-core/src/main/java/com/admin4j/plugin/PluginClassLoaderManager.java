@@ -18,7 +18,7 @@ public class PluginClassLoaderManager {
     }
 
 
-    public PluginClassLoader addPluginClassLoader(String loadName, String... paths) {
+    public PluginClassLoader addPluginClassLoader(String loadName, String... paths) throws IOException {
         removePluginClassLoader(loadName);
         PluginClassLoader pcl = new PluginClassLoader(loadName);
         pcl.addUrlFile(paths);
@@ -27,6 +27,9 @@ public class PluginClassLoaderManager {
         return pcl;
     }
 
+    public PluginClassLoader getPluginClassLoader(String loadName) {
+        return pluginMap.get(loadName);
+    }
 
     public void removePluginClassLoader(String loadName) {
         PluginClassLoader pcl = pluginMap.remove(loadName);

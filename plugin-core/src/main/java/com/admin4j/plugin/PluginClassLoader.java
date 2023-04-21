@@ -31,7 +31,7 @@ public class PluginClassLoader extends URLClassLoader {
     public PluginClassLoader(URL[] urls, ClassLoader parent) {
         super(urls, parent);
         logger.debug("PluginClassLoader parent is {}", parent);
-        System.out.println("PluginClassLoader parent is = " + parent);
+        //System.out.println("PluginClassLoader parent is = " + parent);
     }
 
     public PluginClassLoader(URL[] urls) {
@@ -46,7 +46,7 @@ public class PluginClassLoader extends URLClassLoader {
         return name;
     }
 
-    public void addUrlFile(String... paths) {
+    public void addUrlFile(String... paths) throws IOException {
         URL[] urls = Stream.of(paths).map(path -> new File(path))
                 .flatMap(file -> {
                     if (file.isDirectory()) {
@@ -72,32 +72,33 @@ public class PluginClassLoader extends URLClassLoader {
         addUrlFile(urls);
     }
 
-    public void addUrlFile(URL... urls) {
+    public void addUrlFile(URL... urls) throws IOException {
         for (URL url : urls) {
             try {
                 URLConnection uc = url.openConnection();
                 if (uc instanceof JarURLConnection) {
                     uc.setUseCaches(true);
                     JarURLConnection juc = (JarURLConnection) uc;
-                    juc.getManifest();
+                    //juc.getManifest();
                     cacheJarFiles.add(juc);
                     addURL(url);
+                    juc.getJarFile().close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("JarURLConnection failed {}", e.getMessage(), e);
             }
         }
     }
 
-    public void unloadJarFile() {
-        for (JarURLConnection juc : cacheJarFiles) {
-            try {
-                juc.getJarFile().close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        cacheJarFiles.clear();
-    }
+    //public void unloadJarFile() {
+    //    for (JarURLConnection juc : cacheJarFiles) {
+    //        try {
+    //            juc.getJarFile().close();
+    //        } catch (IOException e) {
+    //            e.printStackTrace();
+    //        }
+    //    }
+    //    cacheJarFiles.clear();
+    //}
 
 }

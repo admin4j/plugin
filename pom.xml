@@ -11,5 +11,6 @@
     <modules>
         <module>plugin-anno</module>
         <module>plugin-core</module>
+        <module>plugin-spring</module>
     </modules>
 </project>

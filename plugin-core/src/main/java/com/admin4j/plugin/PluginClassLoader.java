@@ -90,15 +90,15 @@ public class PluginClassLoader extends URLClassLoader {
         }
     }
 
-    //public void unloadJarFile() {
-    //    for (JarURLConnection juc : cacheJarFiles) {
-    //        try {
-    //            juc.getJarFile().close();
-    //        } catch (IOException e) {
-    //            e.printStackTrace();
-    //        }
-    //    }
-    //    cacheJarFiles.clear();
-    //}
+    public void unloadJarFile() {
+        for (JarURLConnection juc : cacheJarFiles) {
+            try {
+                juc.getJarFile().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        cacheJarFiles.clear();
+    }
 
 }

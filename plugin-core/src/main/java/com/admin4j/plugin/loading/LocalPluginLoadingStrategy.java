@@ -15,11 +15,18 @@ public class LocalPluginLoadingStrategy extends ClassPathPluginLoadingStrategy {
      */
     private static final String PLUGIN_PATH = System.getProperty("PLUGIN_PATH", "./plugin");
 
+    static {
+        try {
+            PluginClassLoaderManager.SHARE_INSTANCE.addPluginClassLoader("LOCAL", PLUGIN_PATH);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public int order() {
         return super.order() - 100;
     }
-
 
     @Override
     public ClassLoader findClassLoader() {

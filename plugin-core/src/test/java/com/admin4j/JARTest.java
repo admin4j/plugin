@@ -1,7 +1,7 @@
 package com.admin4j;
 
-import com.admin4j.plugin.PluginClassLoader;
 import com.admin4j.plugin.api.UserService;
+import com.admin4j.plugin.classloader.PluginClassLoader;
 import org.junit.Test;
 
 import java.net.JarURLConnection;
@@ -23,7 +23,7 @@ public class JARTest {
         URL url = new URL("jar:file:/" + "C:\\Users\\andanyang\\Desktop\\plugin-java\\plugin\\plugin-example-impl-two-1.0-SNAPSHOT.jar" + "!/");
         JarURLConnection urlConnection = (JarURLConnection) url.openConnection();
         PluginClassLoader pcl = new PluginClassLoader("test");
-        pcl.addUrlFile(url);
+        pcl.addUrls(url);
 
         //test close
         urlConnection.getJarFile().close();

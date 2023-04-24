@@ -1,8 +1,15 @@
 package com.admin4j.plugin.loading;
 
 import com.admin4j.plugin.PluginClassLoaderManager;
+import com.admin4j.plugin.classloader.PluginClassLoader;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 /**
  * @author andanyang
@@ -15,14 +22,6 @@ public class LocalPluginLoadingStrategy extends ClassPathPluginLoadingStrategy {
      */
     private static final String PLUGIN_PATH = System.getProperty("PLUGIN_PATH", "./plugin");
 
-    static {
-        try {
-            PluginClassLoaderManager.SHARE_INSTANCE.addPluginClassLoader("LOCAL", PLUGIN_PATH);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public int order() {
         return super.order() - 100;
@@ -32,7 +31,34 @@ public class LocalPluginLoadingStrategy extends ClassPathPluginLoadingStrategy {
     public ClassLoader findClassLoader() {
 
         try {
-            return PluginClassLoaderManager.SHARE_INSTANCE.addPluginClassLoader("LOCAL", PLUGIN_PATH);
+            PluginClassLoader local = PluginClassLoaderManager.SHARE_INSTANCE.getPluginClassLoader("LOCAL");
+
+            //遍历本地文件
+            URL[] urls = Stream.of(PLUGIN_PATH).map(path -> new File(path))
+                    .flatMap(file -> {
+                        if (file.isDirectory()) {
+                            try {
+                                return Files.walk(Paths.get(file.getPath())).map(path -> path.toFile());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            return null;
+                        } else {
+                            return Stream.of(file);
+                        }
+
+                    }).filter(file -> file.getName().endsWith(".jar")).map(file -> {
+                        try {
+                            return new URL("jar:file:/" + file.getAbsolutePath() + "!/");
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }).toArray(URL[]::new);
+
+
+            local.addUrls(urls);
+            return local;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

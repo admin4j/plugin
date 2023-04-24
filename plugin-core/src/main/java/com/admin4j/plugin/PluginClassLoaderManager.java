@@ -1,6 +1,8 @@
 package com.admin4j.plugin;
 
 
+import com.admin4j.plugin.classloader.PluginClassLoader;
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -16,19 +18,13 @@ public class PluginClassLoaderManager {
     private PluginClassLoaderManager() {
 
     }
-
-
-    public PluginClassLoader addPluginClassLoader(String loadName, String... paths) throws IOException {
-        removePluginClassLoader(loadName);
-        PluginClassLoader pcl = new PluginClassLoader(loadName);
-        pcl.addUrlFile(paths);
-        pluginMap.put(loadName, pcl);
-
-        return pcl;
+    
+    public boolean hasPluginClassLoader(String loadName) {
+        return pluginMap.containsKey(loadName);
     }
 
     public PluginClassLoader getPluginClassLoader(String loadName) {
-        return pluginMap.get(loadName);
+        return pluginMap.computeIfAbsent(loadName, (t) -> new PluginClassLoader(loadName));
     }
 
     public void removePluginClassLoader(String loadName) {

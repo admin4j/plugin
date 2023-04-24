@@ -1,6 +1,8 @@
 package com.admin4j.plugin;
 
 
+import com.admin4j.plugin.configuration.Configuration;
+
 import java.util.Map;
 
 /**
@@ -23,6 +25,13 @@ public interface LoadingStrategy extends Comparable<LoadingStrategy> {
      * Normal Priority
      */
     int NORMAL_PRIORITY = 0;
+
+    default void initialization(Configuration configuration) {
+    }
+
+    default boolean enable() {
+        return true;
+    }
 
     <T> Map<String, Class<T>> loadClass(Class<T> tClass);
 

@@ -44,16 +44,15 @@ public class ExtensionLoader<T> {
     //扩展名和扩展实现对象
     private final ConcurrentMap<String, Holder<Object>> cachedInstances = new ConcurrentHashMap<>();
 
-    private final Map<String, Object> cachedActivates = new ConcurrentHashMap<>();
+
     /**
      * Record all unacceptable exceptions when using SPI
      */
     private final Set<String> unacceptableExceptions = new ConcurrentSkipListSet<>();
     private final Map<String, IllegalStateException> exceptions = new ConcurrentHashMap<>();
-    private final Class<?> cachedAdaptiveClass = null;
+
     //@SPI 注解配置的默认扩展名。
     private String cachedDefaultName;
-    private Set<Class<?>> cachedWrapperClasses;
 
     private ExtensionLoader(Class<?> type) {
 
@@ -173,26 +172,6 @@ public class ExtensionLoader<T> {
             //injectExtension(instance);
 
 
-            if (wrap) {
-
-                List<Class<?>> wrapperClassesList = new ArrayList<>();
-                if (cachedWrapperClasses != null) {
-                    wrapperClassesList.addAll(cachedWrapperClasses);
-                    //wrapperClassesList.sort(WrapperComparator.COMPARATOR);
-                    Collections.reverse(wrapperClassesList);
-                }
-
-                if (!wrapperClassesList.isEmpty()) {
-                    for (Class<?> wrapperClass : wrapperClassesList) {
-                        Wrapper wrapper = wrapperClass.getAnnotation(Wrapper.class);
-                        if (wrapper == null
-                                || (ArrayUtils.contains(wrapper.matches(), name) && !ArrayUtils.contains(wrapper.mismatches(), name))) {
-                            instance = (T) wrapperClass.getConstructor(type).newInstance(instance);
-                        }
-                    }
-                }
-            }
-
             initExtension(instance);
             return instance;
         } catch (Throwable t) {
@@ -209,10 +188,10 @@ public class ExtensionLoader<T> {
      */
     private Map<String, Class<?>> getExtensionClasses() {
         Map<String, Class<?>> classes = cachedClasses.get();
-        if (classes == null) {
+        if (classes == null || classes.size() == 0) {
             synchronized (cachedClasses) {
                 classes = cachedClasses.get();
-                if (classes == null) {
+                if (classes == null || classes.size() == 0) {
                     classes = loadExtensionClasses();
                     cachedClasses.set(classes);
                 }
@@ -235,7 +214,9 @@ public class ExtensionLoader<T> {
 
             Map<String, ? extends Class<?>> stringClassMap = strategy.loadClass(type);
             extensionClasses.putAll(stringClassMap);
-
+            if (!strategy.enable()) {
+                continue;
+            }
             for (String name : stringClassMap.keySet()) {
                 String[] names = NAME_SEPARATOR.split(name);
 

@@ -1,9 +1,9 @@
 package com.admin4j;
 
 import com.admin4j.plugin.ExtensionLoader;
-import com.admin4j.plugin.PluginClassLoader;
 import com.admin4j.plugin.PluginClassLoaderManager;
 import com.admin4j.plugin.api.UserService;
+import com.admin4j.plugin.classloader.PluginClassLoader;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class LocalPluginTest {
 
         PluginClassLoader local = PluginClassLoaderManager.SHARE_INSTANCE.getPluginClassLoader("LOCAL");
         local.close();
-        
+
         userService = ExtensionLoader.getExtensionLoader(UserService.class).getDefaultExtension();
         testBean(userService);
     }

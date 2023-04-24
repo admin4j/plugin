@@ -18,6 +18,7 @@ import org.springframework.lang.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -35,9 +36,6 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
     @Setter
     private Class<? extends Annotation> annotationClass;
 
-    public ClassPathMapperScanner(BeanDefinitionRegistry registry) {
-        super(registry, false);
-    }
 
     public ClassPathMapperScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters,
                                   Environment environment, @Nullable ResourceLoader resourceLoader) {
@@ -61,7 +59,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
         if (beanDefinitions.isEmpty()) {
 
             log.warn("No plugin mapper was found in '" + Arrays.toString(basePackages)
-                    + "' package. Please check your configuration.");
+                    + "' package. Please check your Configuration.");
         } else {
             processBeanDefinitions(beanDefinitions);
         }
@@ -77,7 +75,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
         for (BeanDefinitionHolder holder : beanDefinitions) {
 
             definition = (AbstractBeanDefinition) holder.getBeanDefinition();
-            boolean scopedProxy = false;
+            //boolean scopedProxy = false;
 
 
             String beanClassName = definition.getBeanClassName();
@@ -104,6 +102,11 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
     @Override
     protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
+        Map<String, Object> annotationAttributes = beanDefinition.getMetadata().getAnnotationAttributes(annotationClass.getName());
+        Object adaptive = annotationAttributes.get("adaptive");
+        if (adaptive == null || !((Boolean) adaptive)) {
+            return false;
+        }
         return beanDefinition.getMetadata().isInterface() && beanDefinition.getMetadata().isIndependent();
     }
 }

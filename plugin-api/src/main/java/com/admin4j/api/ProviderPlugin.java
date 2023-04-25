@@ -1,6 +1,8 @@
 package com.admin4j.api;
 
 /**
+ * 策略模式
+ *
  * @author andanyang
  * @since 2023/4/24 15:31
  */

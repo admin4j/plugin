@@ -1,7 +1,7 @@
 package com.admin4j.plugin.spring.autoconfigure;
 
 import com.admin4j.plugin.LoadingStrategy;
-import com.admin4j.plugin.configuration.reader.KeyValueConfigurationReader;
+import com.admin4j.plugin.configuration.reader.XmlConfigurationReader;
 import com.admin4j.plugin.spring.remote.RemoteJarService;
 import com.admin4j.plugin.spring.remote.RemotePluginLoadingStrategy;
 import com.admin4j.plugin.spring.service.PluginSelectService;
@@ -24,7 +24,7 @@ public class PluginAutoconfigure {
     @ConditionalOnBean(RemoteJarService.class)
     @Order(1)
     public LoadingStrategy remotePluginLoadingStrategy(RemoteJarService remoteJarService) {
-        return new RemotePluginLoadingStrategy(new KeyValueConfigurationReader(), remoteJarService);
+        return new RemotePluginLoadingStrategy(new XmlConfigurationReader(), remoteJarService);
     }
 
 

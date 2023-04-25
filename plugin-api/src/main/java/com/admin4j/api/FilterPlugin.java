@@ -6,5 +6,10 @@ package com.admin4j.api;
  */
 public interface FilterPlugin<T> {
 
-    void doFilter(T t);
+    default void start(T t) {
+    }
+
+    void doFilter(T t, FilterChain<T> filterChain);
+
+
 }

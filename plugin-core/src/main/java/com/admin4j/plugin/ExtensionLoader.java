@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 
@@ -33,7 +34,6 @@ public class ExtensionLoader<T> {
     private static LoadingStrategy[] strategies = loadLoadingStrategies();
     //当前 ExtensionLoader 绑定的扩展接口类型。
     private final Class<?> type;
-    //private final ExtensionFactory objectFactory;
 
     //存储了扩展实现类类名与实现类的实例对象之间的关系，key 为扩展实现名，value 为实例对象。
     private final ConcurrentMap<Class<?>, Object> EXTENSION_INSTANCES = new ConcurrentHashMap<>(64);
@@ -43,14 +43,13 @@ public class ExtensionLoader<T> {
     private final Holder<Map<String, Class<?>>> cachedClasses = new Holder<>();
     //扩展名和扩展实现对象
     private final ConcurrentMap<String, Holder<Object>> cachedInstances = new ConcurrentHashMap<>();
-
-
     /**
      * Record all unacceptable exceptions when using SPI
      */
     private final Set<String> unacceptableExceptions = new ConcurrentSkipListSet<>();
     private final Map<String, IllegalStateException> exceptions = new ConcurrentHashMap<>();
-
+    //所有的扩展实例
+    private List<T> allExtensionInstances;
     //@SPI 注解配置的默认扩展名。
     private String cachedDefaultName;
 
@@ -140,6 +139,17 @@ public class ExtensionLoader<T> {
             }
         }
         return (T) instance;
+    }
+
+    public List<T> getAllExtension() {
+
+        if (allExtensionInstances != null) {
+            return allExtensionInstances;
+        }
+        getExtensionClasses();
+
+        allExtensionInstances = cachedClasses.get().keySet().stream().map(this::getExtension).collect(Collectors.toList());
+        return allExtensionInstances;
     }
 
     public T getDefaultExtension() {

@@ -1,7 +1,7 @@
 package com.admin4j.plugin;
 
 
-import com.admin4j.plugin.configuration.Configuration;
+import com.admin4j.plugin.configuration.ConfigurationReader;
 
 import java.util.Map;
 
@@ -26,8 +26,6 @@ public interface LoadingStrategy extends Comparable<LoadingStrategy> {
      */
     int NORMAL_PRIORITY = 0;
 
-    default void initialization(Configuration configuration) {
-    }
 
     default boolean enable() {
         return true;
@@ -71,5 +69,8 @@ public interface LoadingStrategy extends Comparable<LoadingStrategy> {
 
         return o.order() > order() ? 1 : 0;
     }
+
+
+    ConfigurationReader getConfigurationReader();
 
 }

@@ -1,4 +1,4 @@
-package com.admin4j.plugin.classloader;
+package com.admin4j.plugin;
 
 
 import org.slf4j.Logger;

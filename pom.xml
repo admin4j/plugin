@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>com.admin4j</groupId>
-        <artifactId>framework</artifactId>
+        <artifactId>admin4j-parent</artifactId>
         <version>0.0.5</version>
     </parent>
 
@@ -15,7 +15,7 @@
 
     <name>plugin</name>
     <modules>
-        <module>plugin-anno</module>
+        <module>plugin-api</module>
         <module>plugin-core</module>
         <module>plugin-spring</module>
     </modules>

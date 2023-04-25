@@ -4,6 +4,7 @@ import com.admin4j.plugin.spring.factory.AdaptiveFactoryBean;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
@@ -84,7 +85,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
             definition.setBeanClass(this.mapperFactoryBeanClass);
 
-            String beanName = beanClassName;
+            String beanName = "PLUGIN#" + StringUtils.substringAfter(beanClassName, ".");
             AbstractBeanDefinition beanDefinition1 = BeanDefinitionBuilder.genericBeanDefinition(this.mapperFactoryBeanClass)
                     .addPropertyValue("mapperInterface", beanClassName)
                     //.addPropertyValue("pluginSelectService", new DefaultPluginSelectServiceImpl())

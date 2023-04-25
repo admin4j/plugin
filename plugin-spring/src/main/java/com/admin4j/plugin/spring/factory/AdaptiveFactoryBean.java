@@ -1,7 +1,7 @@
 package com.admin4j.plugin.spring.factory;
 
+import com.admin4j.api.anno.SPI;
 import com.admin4j.plugin.ExtensionLoader;
-import com.admin4j.plugin.anno.SPI;
 import com.admin4j.plugin.spring.service.PluginSelectService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

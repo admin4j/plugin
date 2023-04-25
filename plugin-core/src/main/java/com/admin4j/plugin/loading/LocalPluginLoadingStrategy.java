@@ -1,7 +1,9 @@
 package com.admin4j.plugin.loading;
 
+import com.admin4j.plugin.PluginClassLoader;
 import com.admin4j.plugin.PluginClassLoaderManager;
-import com.admin4j.plugin.classloader.PluginClassLoader;
+import com.admin4j.plugin.configuration.ConfigurationReader;
+import com.admin4j.plugin.configuration.reader.XmlConfigurationReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +20,18 @@ import java.util.stream.Stream;
 public class LocalPluginLoadingStrategy extends ClassPathPluginLoadingStrategy {
 
     /**
-     * 插件路径
+     * 本地插件路径
      */
     private static final String PLUGIN_PATH = System.getProperty("PLUGIN_PATH", "./plugin");
+
+    public LocalPluginLoadingStrategy() {
+        this(new XmlConfigurationReader());
+
+    }
+
+    public LocalPluginLoadingStrategy(ConfigurationReader configurationReader) {
+        this.configurationReader = configurationReader;
+    }
 
     @Override
     public int order() {

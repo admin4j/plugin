@@ -1,4 +1,4 @@
-package com.admin4j.plugin.anno;
+package com.admin4j.api.anno;
 
 import java.lang.annotation.*;
 

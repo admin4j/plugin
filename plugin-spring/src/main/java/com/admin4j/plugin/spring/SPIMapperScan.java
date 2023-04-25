@@ -1,5 +1,7 @@
 package com.admin4j.plugin.spring;
 
+import com.admin4j.plugin.spring.autoconfigure.SPIScannerRegistrar;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
@@ -11,6 +13,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
+@Import(SPIScannerRegistrar.class)
 public @interface SPIMapperScan {
 
     @AliasFor("basePackages")

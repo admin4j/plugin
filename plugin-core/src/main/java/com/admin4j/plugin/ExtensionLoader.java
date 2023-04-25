@@ -1,6 +1,6 @@
 package com.admin4j.plugin;
 
-import com.admin4j.plugin.anno.SPI;
+import com.admin4j.api.anno.SPI;
 import com.admin4j.plugin.context.Lifecycle;
 import com.admin4j.plugin.util.Holder;
 import org.apache.commons.lang3.ArrayUtils;
@@ -30,7 +30,7 @@ public class ExtensionLoader<T> {
     /**
      * 加载插件策略
      */
-    private static final LoadingStrategy[] strategies = loadLoadingStrategies();
+    private static LoadingStrategy[] strategies = loadLoadingStrategies();
     //当前 ExtensionLoader 绑定的扩展接口类型。
     private final Class<?> type;
     //private final ExtensionFactory objectFactory;
@@ -59,11 +59,15 @@ public class ExtensionLoader<T> {
         this.type = type;
     }
 
-    //public static void setLoadingStrategies(LoadingStrategy... strategies) {
-    //    if (ArrayUtils.isNotEmpty(strategies)) {
-    //        ExtensionLoader.strategies = strategies;
-    //    }
-    //}
+    public static LoadingStrategy[] getLoadingStrategies() {
+        return ExtensionLoader.strategies;
+    }
+
+    public static void setLoadingStrategies(LoadingStrategy... strategies) {
+        if (ArrayUtils.isNotEmpty(strategies)) {
+            ExtensionLoader.strategies = strategies;
+        }
+    }
 
     private static LoadingStrategy[] loadLoadingStrategies() {
         return StreamSupport.stream(ServiceLoader.load(LoadingStrategy.class).spliterator(), false)
@@ -217,6 +221,7 @@ public class ExtensionLoader<T> {
             if (!strategy.enable()) {
                 continue;
             }
+
             for (String name : stringClassMap.keySet()) {
                 String[] names = NAME_SEPARATOR.split(name);
 

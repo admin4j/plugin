@@ -1,8 +1,6 @@
 package com.admin4j.plugin;
 
 
-import com.admin4j.plugin.classloader.PluginClassLoader;
-
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -18,7 +16,7 @@ public class PluginClassLoaderManager {
     private PluginClassLoaderManager() {
 
     }
-    
+
     public boolean hasPluginClassLoader(String loadName) {
         return pluginMap.containsKey(loadName);
     }

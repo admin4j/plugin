@@ -1,6 +1,11 @@
 package com.admin4j.plugin.configuration;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author andanyang
@@ -15,6 +20,14 @@ public class PluginConfiguration {
     private String name;
     private String version;
     private String description;
-    private String interfaceName;
-    private String implementName;
+
+    private List<Plugin> plugins = new ArrayList<Plugin>();
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class Plugin {
+        private String interfaceName;
+        private String implementName;
+    }
 }

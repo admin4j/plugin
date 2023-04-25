@@ -1,7 +1,7 @@
 package com.admin4j;
 
+import com.admin4j.plugin.PluginClassLoader;
 import com.admin4j.plugin.api.UserService;
-import com.admin4j.plugin.classloader.PluginClassLoader;
 import org.junit.Test;
 
 import java.net.JarURLConnection;

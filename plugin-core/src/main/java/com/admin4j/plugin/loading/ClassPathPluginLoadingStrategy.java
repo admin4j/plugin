@@ -39,7 +39,7 @@ public class ClassPathPluginLoadingStrategy implements LoadingStrategy {
     }
 
     @Override
-    public int order() {
+    public int getPriority() {
         return LoadingStrategy.MAX_PRIORITY;
     }
 

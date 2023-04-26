@@ -10,7 +10,7 @@
 
     <groupId>com.admin4j</groupId>
     <artifactId>plugin</artifactId>
-    <version>0.0.1</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <name>plugin</name>
@@ -18,5 +18,35 @@
         <module>plugin-api</module>
         <module>plugin-core</module>
         <module>plugin-spring</module>
+        <module>plugin-spring-boot-starter</module>
     </modules>
+
+    <properties>
+        <revision>0.1.2</revision>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.admin4j</groupId>
+                <artifactId>plugin-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.admin4j</groupId>
+                <artifactId>plugin-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.admin4j</groupId>
+                <artifactId>plugin-spring</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.admin4j</groupId>
+                <artifactId>plugin-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

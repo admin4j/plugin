@@ -1,5 +1,6 @@
 package com.admin4j.plugin;
 
+import com.admin4j.api.Prioritized;
 import com.admin4j.api.anno.SPI;
 import com.admin4j.plugin.context.Lifecycle;
 import com.admin4j.plugin.util.Holder;
@@ -14,6 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 
@@ -148,7 +150,11 @@ public class ExtensionLoader<T> {
         }
         getExtensionClasses();
 
-        allExtensionInstances = cachedClasses.get().keySet().stream().map(this::getExtension).collect(Collectors.toList());
+        Stream<T> stream = cachedClasses.get().keySet().stream().map(this::getExtension);
+        if (Prioritized.class.isAssignableFrom(type)) {
+            stream = stream.sorted();
+        }
+        allExtensionInstances = stream.collect(Collectors.toList());
         return allExtensionInstances;
     }
 

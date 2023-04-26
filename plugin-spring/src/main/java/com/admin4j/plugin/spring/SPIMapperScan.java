@@ -1,6 +1,5 @@
 package com.admin4j.plugin.spring;
 
-import com.admin4j.plugin.spring.autoconfigure.SPIScannerRegistrar;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 

@@ -1,7 +1,6 @@
-package com.admin4j.plugin.spring.autoconfigure;
+package com.admin4j.plugin.spring;
 
 import com.admin4j.api.anno.SPI;
-import com.admin4j.plugin.spring.SPIMapperScan;
 import com.admin4j.plugin.spring.scan.MapperScannerConfigurer;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

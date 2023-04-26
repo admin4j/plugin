@@ -48,8 +48,8 @@ public class RemotePluginLoadingStrategy extends LocalPluginLoadingStrategy {
     }
 
     @Override
-    public int order() {
-        return super.order() - 10;
+    public int getPriority() {
+        return super.getPriority() - 10;
     }
 
     @Override

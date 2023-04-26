@@ -34,8 +34,8 @@ public class LocalPluginLoadingStrategy extends ClassPathPluginLoadingStrategy {
     }
 
     @Override
-    public int order() {
-        return super.order() - 100;
+    public int getPriority() {
+        return super.getPriority() - 100;
     }
 
     @Override

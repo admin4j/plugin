@@ -26,10 +26,10 @@ jobs:
           java-version: 8
           distribution: temurin
           server-id: ossrh
-          server-username: ${{ secrets.OSSRH_USER }}
-          server-password: ${{ secrets.OSSRH_PASSWORD }}
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-      #          gpg-passphrase: ${{ secrets.GPG_PASSWORD }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Build with Maven
         run: mvn -B clean package --file pom.xml
@@ -37,7 +37,7 @@ jobs:
       - name: Set up Apache Maven Central
         run: mvn deploy --file pom.xml
         env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSWORD }}
           MAVEN_USERNAME: ${{ secrets.OSSRH_USER }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GITHUB_TOKEN: ${{ github.token }}

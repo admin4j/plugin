@@ -37,6 +37,7 @@ jobs:
       - name: Publish to GitHub Packages Apache Maven
         run: mvn deploy --file pom.xml
         env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSWORD }}
           MAVEN_USERNAME: ${{ secrets.OSSRH_USER }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GITHUB_TOKEN: ${{ github.token }}

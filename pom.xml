@@ -56,13 +56,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>3.0.1</version>
-                <configuration>
-                    <!-- Prevent gpg from using pinentry programs -->
-                    <gpgArguments>
-                        <arg>--pinentry-mode</arg>
-                        <arg>loopback</arg>
-                    </gpgArguments>
-                </configuration>
+                <!--                <configuration>-->
+                <!--                    &lt;!&ndash; Prevent gpg from using pinentry programs &ndash;&gt;-->
+                <!--                    <gpgArguments>-->
+                <!--                        <arg>&#45;&#45;pinentry-mode</arg>-->
+                <!--                        <arg>loopback</arg>-->
+                <!--                    </gpgArguments>-->
+                <!--                </configuration>-->
                 <!--                <executions>-->
                 <!--                    <execution>-->
                 <!--                        <id>sign-artifacts</id>-->
